@@ -1,0 +1,118 @@
+
+
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { db, initializeDb } from './configs/db.js';
+
+import itemRoutes from './routes/item-routes.js';
+
+
+const PORT = 9000;
+const app = express();
+
+// JSON middleware
+app.use(express.json());
+app.use((req, res, next: NextFunction) => {
+    console.log('Middleware executed');
+    next();
+});
+
+//versioning
+app.use('/api/v1/items',itemRoutes)
+
+// Initialize the database
+
+initializeDb().then(() => {
+    console.log('Database initialized');
+});
+
+// Check the server running
+app.get('/', (req, res) => {
+    const numberOne = 1;
+    const numberTwo = 2;
+    const sum = numberOne + numberTwo;
+    console.log(`The sum of ${numberOne} and ${numberTwo} is ${sum}`);
+
+    res.json({ message: `The sum of ${numberOne} and ${numberTwo} is ${sum}` });
+});
+
+// CRUD operations
+
+// Create
+// app.post('/add-item', async (req: Request, res: Response) => {
+//     const { name } = req.body;
+//     if (!name) {
+//         return res.status(400).json({ error: 'Name is required' });
+//     }
+//     try {
+//         db.data.items.push({ id: db.data.items.length + 1, name });
+//         await db.write();
+//         res.status(201).json({ message: 'Item added successfully', item: { id: db.data.items.length, name } });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to add item' });
+//     }
+// });
+
+//read
+// app.get('/get-items',async(req:Request,res:Response)=>{
+//     try{
+//         await db.read();
+//         res.status(200).json({items:db.data.items});
+//     }catch(error){
+//         res.status(500).json({error:'Failed to retrieve items'});
+//     }
+// });
+
+//update
+// app.put('/update-item/:id', async (req: Request, res: Response) => {
+//     const idParam = req.params.id;
+//     if (!idParam) {
+//         return res.status(400).json({ error: 'Id is required' });
+//     }
+//
+//     const id = parseInt(idParam);
+//     const { name } = req.body;
+//
+//     if (!name) {
+//         return res.status(400).json({ error: 'Name is required' });
+//     }
+//
+//     try {
+//         const item = db.data.items.find(item => item.id === id);
+//         if (!item) {
+//             return res.status(404).json({ error: 'Item not found' });
+//         }
+//         item.name = name;
+//         await db.write();
+//         res.status(200).json({ message: 'Item updated successfully', item });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to update item' });
+//     }
+// });
+
+//delete
+// app.delete('/delete-item/:id', async (req: Request, res: Response) => {
+//     const idParam = req.params.id;
+//     if (!idParam) {
+//         return res.status(400).json({ error: 'Id is required' });
+//     }
+//
+//     const id = parseInt(idParam);
+//
+//     try {
+//         const itemIndex = db.data.items.findIndex(item => item.id === id);
+//         if (itemIndex === -1) {
+//             return res.status(404).json({ error: 'Item not found' });
+//         }
+//         db.data.items.splice(itemIndex, 1);
+//         await db.write();
+//         res.status(200).json({ message: 'Item deleted successfully' });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to delete item' });
+//     }
+// });
+
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
