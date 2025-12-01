@@ -1,20 +1,27 @@
 import express from 'express';
-import { db, initializeDb } from './configs/db.js';
+//import { db, initializeDb } from './configs/db.js';
+import mongoose from 'mongoose';
 import itemRoutes from './routes/item-routes.js';
 const PORT = 9000;
 const app = express();
+const MONGO_URI = 'mongodb://localhost:27017/metaroon';
 // JSON middleware
 app.use(express.json());
 app.use((req, res, next) => {
     console.log('Middleware executed');
     next();
 });
+// MongoDB connection
+mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.error('Failed to connect to MongoDB:', error));
 //versioning
 app.use('/api/v1/items', itemRoutes);
 // Initialize the database
-initializeDb().then(() => {
-    console.log('Database initialized');
-});
+// initializeDb().then(() => {
+//     console.log('Database initialized');
+// });
 // Check the server running
 app.get('/', (req, res) => {
     const numberOne = 1;
