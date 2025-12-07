@@ -7,9 +7,14 @@ const app = express();
 const MONGO_URI = 'mongodb://localhost:27017/metaroon';
 // JSON middleware
 app.use(express.json());
-app.use((req, res, next) => {
-    console.log('Middleware executed');
-    next();
+//serve static files from the public directyory
+app.use(express.static('public'));
+// app.use((req, res, next: NextFunction) => {
+//     console.log('Middleware executed');
+//     next();
+// });
+app.get('/', (req, res) => {
+    res.sendFile('src/public/index.html', { root: '.' });
 });
 // MongoDB connection
 mongoose
