@@ -23,6 +23,8 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile('src/public/index.html', { root: '.' });
 });
+
+//hello metaroon
 // MongoDB connection
 mongoose
     .connect(MONGO_URI)
