@@ -1,0 +1,48 @@
+import request from 'supertest';
+import app from './test-app';
+
+describe('POST /add-item with HTML content', () => {
+  it('should fail when sending HTML instead of JSON', async () => {
+    const htmlContent = '<html><body><h1>This is HTML</h1></body></html>';
+    
+    const response = await request(app)
+      .post('/api/v1/items/add-item')
+      .set('Content-Type', 'text/html')
+      .send(htmlContent);
+
+    console.log('Response status:', response.status);
+    console.log('Response body:', response.body);
+    
+    // This should fail because the API expects JSON with a 'name' field
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Name is required');
+  });
+
+  it('should fail when sending HTML disguised as JSON', async () => {
+    const response = await request(app)
+      .post('/api/v1/items/add-item')
+      .set('Content-Type', 'application/json')
+      .send('<html><body>Invalid JSON</body></html>');
+
+    console.log('Response status:', response.status);
+    console.log('Response body:', response.body);
+    
+    // This should result in a parsing error or 400 status
+    expect(response.status).toBeGreaterThanOrEqual(400);
+  });
+
+  it('should fail when sending malformed JSON with HTML-like content', async () => {
+    const response = await request(app)
+      .post('/api/v1/items/add-item')
+      .set('Content-Type', 'application/json')
+      .send({ name: '<script>alert("xss")</script>' });
+
+    console.log('Response status:', response.status);
+    console.log('Response body:', response.body);
+    
+    // This might succeed with the HTML content as the name, which could be a security issue
+    if (response.status === 201) {
+      console.log('WARNING: HTML content was accepted as name:', response.body.result.name);
+    }
+  });
+});

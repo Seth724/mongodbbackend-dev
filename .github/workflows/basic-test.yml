@@ -1,0 +1,17 @@
+name: Basic Test
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  basic_test:
+    runs-on: ubuntu-latest
+    name: Basic Test Job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Echo test
+        run: echo "CI test working"
+      - name: List files
+        run: ls -la
