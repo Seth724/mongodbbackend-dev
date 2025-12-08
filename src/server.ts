@@ -134,7 +134,6 @@
 
 
 import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import itemRoutes from './routes/item-routes.js';

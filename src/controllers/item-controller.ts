@@ -90,7 +90,7 @@ export class ItemController {
             const newItem = new ItemSchemaModel({ name, id: uuidv4() });
             const result = await newItem.save();
             res.status(201).json({ message: 'Item added successfully', result });
-        } catch (error) {
+        } catch {
             res.status(500).json({ error: 'Failed to add item' });
         }
     }
@@ -100,7 +100,7 @@ export class ItemController {
         try {
             const items = await ItemSchemaModel.find();
             res.status(200).json({ items });
-        } catch (error) {
+        } catch {
             res.status(500).json({ error: 'Failed to retrieve items' });
         }
     }
@@ -127,7 +127,7 @@ export class ItemController {
                 return res.status(404).json({ error: 'Item not found' });
             }
             res.status(200).json({ message: 'Item updated successfully', updatedItem });
-        } catch (error) {
+        } catch {
             res.status(500).json({ error: 'Failed to update item' });
         }
     }
@@ -146,7 +146,7 @@ export class ItemController {
                 return res.status(404).json({ error: 'Item not found' });
             }
             res.status(200).json({ message: 'Item deleted successfully' });
-        } catch (error) {
+        } catch {
             res.status(500).json({ error: 'Failed to delete item' });
         }
     }
