@@ -8,6 +8,8 @@
     "dev": "yarn run watch-ts & yarn run watch-server",
     "watch-ts": "tsc --watch",
     "watch-server": "nodemon ./out/server --ignore db.json",
+    "build": "tsc",
+    "start": "node ./out/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
