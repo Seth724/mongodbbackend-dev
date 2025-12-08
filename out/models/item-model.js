@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 // Define the schema for the Item model
 const ItemSchema = new Schema({
     name: { type: String, required: true },

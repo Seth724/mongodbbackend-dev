@@ -5,14 +5,17 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "yarn run watch-ts & yarn run watch-server",
     "watch-ts": "tsc --watch",
-    "watch-server": "nodemon ./out/server --ignore db.json"
+    "watch-server": "nodemon ./out/server --ignore db.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "lowdb": "^7.0.1",
     "mongoose": "^9.0.0",
@@ -20,9 +23,16 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
+    "@types/jest": "^30.0.0",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^24.10.1",
+    "@types/supertest": "^6.0.3",
     "@types/uuid": "^11.0.0",
-    "nodemon": "^3.1.11"
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.4.1",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
   }
 }
